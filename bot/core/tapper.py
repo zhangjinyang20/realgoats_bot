@@ -236,8 +236,8 @@ class Tapper:
                 await asyncio.sleep(delay=3)
 
             sleep_time = random.randint(settings.SLEEP_TIME[0], settings.SLEEP_TIME[1])
-            logger.info(f"{self.session_name} | Sleep <lc>{sleep_time}s</lc>")
-            await asyncio.sleep(delay=sleep_time)
+            logger.info(f"{self.session_name} | Sleep <lc>24小时</lc>")
+            await asyncio.sleep(delay=24*60*60)
 
 
 async def run_tapper(tg_client: Client, proxy: str | None):
