@@ -190,8 +190,8 @@ class Tapper:
                 lastCheckinTime = signInfo.get('lastCheckinTime')
                 min_timestamp1 = datetime.datetime.combine(datetime.datetime.now(), datetime.time.min).timestamp()
                 max_timestamp2 = datetime.datetime.combine(datetime.datetime.now(), datetime.time.max).timestamp()
-                await asyncio.sleep(delay=30)
-                if not min_timestamp1 <= lastCheckinTime <= max_timestamp2:
+                if not min_timestamp1 <= (lastCheckinTime/1000) <= max_timestamp2:
+                    await asyncio.sleep(delay=30)
                     checkInList = signInfo.get('result')
                     for ins in checkInList:
                         if ins['status']:
