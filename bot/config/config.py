@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     API_ID: int
     API_HASH: str
    
-    REF_ID: str = "333c4cc1-2ce4-4b17-99f8-7c3797832413"
+    REF_ID: str = "fa1505b4-f873-472e-8a5f-5fb764656e8f"
     USE_RANDOM_DELAY_IN_RUN: bool = True
     RANDOM_DELAY_IN_RUN: list[int] = [0, 15]
     FAKE_USERAGENT: bool = True
@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     
     USE_PROXY_FROM_FILE: bool = False
 
+    DO_TASK: bool = True
 
 settings = Settings()
 
