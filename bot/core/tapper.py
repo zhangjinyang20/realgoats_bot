@@ -190,7 +190,7 @@ class Tapper:
                 lastCheckinTime = signInfo.get('lastCheckinTime')
                 min_timestamp1 = datetime.datetime.combine(datetime.datetime.now(), datetime.time.min).timestamp()
                 max_timestamp2 = datetime.datetime.combine(datetime.datetime.now(), datetime.time.max).timestamp()
-                if not min_timestamp1 <= (lastCheckinTime/1000) <= max_timestamp2:
+                if not min_timestamp1 <= (lastCheckinTime / 1000) <= max_timestamp2:
                     await asyncio.sleep(delay=30)
                     checkInList = signInfo.get('result')
                     for ins in checkInList:
@@ -203,25 +203,26 @@ class Tapper:
                             break
 
                 # 任务
-                tasks = await self.get_tasks(http_client=http_client)
-                for project, project_tasks in tasks.items():
-                    for task in project_tasks:
-                        if not task.get('status'):
-                            task_id = task.get('_id')
-                            task_name = task.get('name')
-                            task_reward = task.get('reward')
+                if settings.DO_TASK:
+                    tasks = await self.get_tasks(http_client=http_client)
+                    for project, project_tasks in tasks.items():
+                        for task in project_tasks:
+                            if not task.get('status'):
+                                task_id = task.get('_id')
+                                task_name = task.get('name')
+                                task_reward = task.get('reward')
 
-                            logger.info(f"Attempting task: {project}: {task_name}")
+                                logger.info(f"Attempting task: {project}: {task_name}")
 
-                            done_result = await self.done_task(http_client=http_client, task_id=task_id)
+                                done_result = await self.done_task(http_client=http_client, task_id=task_id)
 
-                            if done_result and done_result.get('status') == 'success':
-                                logger.info(
-                                    f"Task completed successfully: {project}: {task_name} | Reward: +{task_reward}")
-                            else:
-                                logger.warning(f"Failed to complete task: {project}: {task_name}")
+                                if done_result and done_result.get('status') == 'success':
+                                    logger.info(
+                                        f"Task completed successfully: {project}: {task_name} | Reward: +{task_reward}")
+                                else:
+                                    logger.warning(f"Failed to complete task: {project}: {task_name}")
 
-                        await asyncio.sleep(5)
+                            await asyncio.sleep(5)
 
                 await http_client.close()
                 if proxy_conn:
@@ -237,7 +238,7 @@ class Tapper:
 
             sleep_time = random.randint(settings.SLEEP_TIME[0], settings.SLEEP_TIME[1])
             logger.info(f"{self.session_name} | Sleep <lc>24小时</lc>")
-            await asyncio.sleep(delay=24*60*60)
+            await asyncio.sleep(delay=24 * 60 * 60)
 
 
 async def run_tapper(tg_client: Client, proxy: str | None):
